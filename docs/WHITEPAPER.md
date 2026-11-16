@@ -4,6 +4,8 @@ A decentralized, programmable relational lifecycle engine designed to establish 
 
 > **Built for Base.** Current testnet deployments are on Base Sepolia.
 >
+> **The core product is the household vault.** $COV is an optional utility layer: USDC fees work without it.
+>
 > **Status: Testnet.** Contracts are unaudited and must not be used with real funds. Testnet tokens have no value. Features marked **(Roadmap)** are designed but not yet implemented. Nothing here is investment, legal or financial advice.
 
 ---
@@ -14,7 +16,7 @@ Covenant functions as an automated family sovereign fund split into three sequen
 
 1. **The Foundation Tier (Marriage):** Couples bind their wallets into a strict 2-of-2 state layout. Each household holds its own USDC balance, isolated from every other household, and accrues a **Tenure Multiplier** through generational milestones and voluntary $COV commitment. *(Roadmap: lending/yield routing for pooled USDC, and using the multiplier to scale benefits.)*
 2. **The Generational Tier (Birth):** A birth event creates a **Generational Trust** record for the child, time-locked for exactly 18 years, and raises the household's Tenure Multiplier. *(Roadmap: Zero-Knowledge or attester-based birth verification, and a real child trust sub-vault that holds funds. Today the trigger is limited to the household's spouses.)*
-3. **The Stabilizer Tier (Divorce Prevention):** Any dissolution trigger starts a mandatory **90-day isolation freeze**. During the freeze, the non-initiating partner can cancel and restore the household. If the freeze expires uncancelled, the engine executes a 50/50 split of that household's USDC, bypassing courtroom fees.
+3. **The Stabilizer Tier (Divorce Prevention):** Any dissolution trigger starts a mandatory **90-day isolation freeze**. During the freeze, the non-initiating partner can cancel and restore the household. If the freeze expires uncancelled, the engine executes a 50/50 split of that household's USDC, which reduces disputes over shared savings in cooperative separations. The split does not override family law, property regimes, prenuptial agreements or court orders. *(Roadmap: the split rule becomes a choice the couple makes when they create the household: equal 50/50 for married couples, pro-rata by net contributions for unmarried or co-living couples, or a custom ratio for couples with a prenuptial or other financial agreement. Today the split is always 50/50.)*
 
 ---
 
@@ -99,9 +101,10 @@ The decay logic is also covered by automated tests, including fuzz tests showing
 * **Testnet uses mocks.** The price source is an owner-set mock and the buyback router is a stand-in for a DEX. Mainnet requires a manipulation-resistant price source (TWAP or oracle) and a real, liquid pool.
 * **Single-key owner on testnet.** Mainnet requires a multisig with a timelock for fee, price-source and router changes.
 * Token configuration is owner-only and can be set once. Token movements use SafeERC20 and reentrancy guards, and state changes happen before external calls.
-* Funds can currently leave a household only through the divorce split. Mutual withdrawal, personal pockets and a recovery path are on the roadmap, and are needed before the protocol can responsibly hold real value.
-* The freeze protects against impulsive separation, but it can also hold shared funds for 90 days. Protections for a partner who needs to leave a controlling relationship are on the roadmap.
-* The 50/50 rule and on-chain splits do not override family-law requirements in any jurisdiction.
+* Funds can currently leave a household only through the divorce split. Mutual withdrawal, personal pockets, an emergency withdrawal path and a recovery path are on the roadmap, and are needed before the protocol can responsibly hold real value.
+* The freeze protects against impulsive separation, but it can also hold shared funds for 90 days. Protections for a partner who needs to leave a controlling relationship, including an emergency withdrawal path, are on the roadmap and need legal advice.
+* The on-chain split (today fixed at 50/50) does not override family law, property regimes, prenuptial agreements or court orders in any jurisdiction.
+* **Design intent: non-custodial.** No administrator can move a household's balance. The owner can adjust only bounded fee parameters, the token link, the price source and the buyback router, which affect fees and buybacks, not household balances. On testnet the price source and router are owner-set mocks.
 
 ---
 
@@ -147,7 +150,8 @@ Set `USDC_ADDRESS`, `TREASURY` and `STABILIZATION_VAULT` in `.env` first (see `.
 
 ## 🧭 Roadmap
 
-* Mutual withdrawals, personal pockets, and a recovery path for lost keys
+* Mutual withdrawals, personal pockets, an emergency withdrawal path for a partner who needs to leave safely, and a recovery path for lost keys or death
+* Configurable split rules chosen by the couple (equal, pro-rata, custom) with a contribution ledger
 * A real child trust sub-vault, with attester or ZK birth verification
 * Attester and mediator staking, with slashing
 * Real price oracle (TWAP) and a DEX adapter for the buyback

@@ -4,7 +4,7 @@
 
 > ⚠️ **Testnet only. Unaudited.** The contracts are deployed on Base Sepolia for testing. Do not use real funds. Testnet tokens have no value. Nothing here is investment, legal or financial advice.
 
-Two partners bind their wallets into a 2-of-2 household vault. Each household holds its own USDC, accrues a Tenure Multiplier, can create 18-year child-trust records, and, if the relationship ends, goes through a mandatory **90-day freeze** that only the *other* partner can cancel. If the freeze expires, the household's USDC is split 50/50 on-chain.
+Two partners bind their wallets into a 2-of-2 household vault. Each household holds its own USDC, accrues a Tenure Multiplier, can create 18-year child-trust records, and, if the relationship ends, goes through a mandatory **90-day freeze** that only the *other* partner can cancel. If the freeze expires, the household's USDC is split 50/50 on-chain (today fixed at 50/50; couple-chosen split rules are planned).
 
 📄 Full details: [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md)
 
@@ -16,9 +16,9 @@ Two partners bind their wallets into a 2-of-2 household vault. Each household ho
 |---|---|
 | **Foundation** | `initializeCovenant` binds two wallets. Each household has an isolated USDC balance (`depositStablecoin`). |
 | **Generational** | `initializeGenerationalTrust` creates a child-trust record locked for 18 years and raises the Tenure Multiplier. |
-| **Stabilizer** | `initiateDissolution` starts a 90-day freeze. The non-initiating partner can `cancelDissolution`. After 90 days, `executeAlgorithmicDivorceSplit` splits the household's USDC 50/50. |
+| **Stabilizer** | `initiateDissolution` starts a 90-day freeze. The non-initiating partner can `cancelDissolution`. After 90 days, `executeAlgorithmicDivorceSplit` splits the household's USDC 50/50 (planned: equal, pro-rata or custom, chosen by the couple at creation). |
 
-### The $COV token model (v3.1)
+### The optional $COV token model (v3.1)
 
 $COV is a fixed-supply utility token, modeled on exchange platform tokens: the protocol earns USDC revenue, and a share of it buys and burns $COV.
 
@@ -95,14 +95,15 @@ V3_NOTES.md, V31_NOTES.md      Behavior notes and mainnet blockers
 - **Unaudited.** An audit is required before any mainnet plan.
 - **Testnet uses mocks:** an owner-set price source and a stand-in DEX router. Mainnet needs a TWAP or oracle and a real pool.
 - **Single-key owner** on testnet. Mainnet needs a multisig plus timelock.
-- **Funds leave a household only through the divorce split.** Mutual withdrawal, personal pockets and a recovery path (lost key, death) are not built yet.
-- **The 90-day freeze can hold shared funds**, which is a risk for a partner who needs to leave a controlling relationship. Protections are on the roadmap.
+- **Funds leave a household only through the divorce split.** Mutual withdrawal, personal pockets, an emergency withdrawal path and a recovery path (lost key, death) are not built yet.
+- **The 90-day freeze can hold shared funds**, which is a risk for a partner who needs to leave a controlling relationship. Protections, including an emergency withdrawal path, are on the roadmap and need legal advice.
 - **Generational trusts are records**, not funded sub-vaults. Birth verification is not implemented.
-- The on-chain split does not override family law in any jurisdiction.
+- The on-chain split does not override family law, property regimes, prenuptial agreements or court orders in any jurisdiction.
+- **Design intent: non-custodial.** No administrator can move a household's balance; the owner can adjust only bounded fee parameters, the token link, the price source and the buyback router. On testnet the price source and router are owner-set mocks.
 
 ## Roadmap
 
-1. Mutual withdrawals, personal pockets, recovery path
+1. Mutual withdrawals, personal pockets, emergency withdrawal path, recovery path, and configurable split rules (equal, pro-rata, custom) with a contribution ledger
 2. Real child-trust sub-vault, with attester or ZK birth verification
 3. Attester and mediator staking with slashing
 4. Real price oracle and DEX adapter, multisig and timelock ownership
