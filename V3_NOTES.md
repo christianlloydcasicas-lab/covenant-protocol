@@ -1,16 +1,16 @@
 # CovenantVaultV3 notes
 
 ## What changed from v2
-- Fees are fixed by the contract (bounded, owner-adjustable). Callers no longer pass a COV amount.
-- Pay in USDC, or in COV with a discount (default 25%).
-- USDC fees: 40% queued for buyback-and-burn of COV, 60% to the treasury (both adjustable within bounds).
-- COV fees: 70% burned (20% when supply is under 5M), the rest to the stabilization vault.
+- Fees are fixed by the contract (bounded, owner-adjustable). Callers no longer pass a COVP amount.
+- Pay in USDC, or in COVP with a discount (default 25%).
+- USDC fees: 40% queued for buyback-and-burn of COVP, 60% to the treasury (both adjustable within bounds).
+- COVP fees: 70% burned (20% when supply is under 5M), the rest to the stabilization vault.
 - `executeBuyback(usdcAmount)` is callable by anyone. It spends only queued fee USDC, enforces a
-  slippage floor against the price source, and burns the COV actually received.
-- Token-free mode: USDC fees work even if COV is not configured.
+  slippage floor against the price source, and burns the COVP actually received.
+- Token-free mode: USDC fees work even if COVP is not configured.
 
 ## Behavior changes to be aware of
-- The low-supply decay now applies to all COV fees (v2 applied it only to the trust fee).
+- The low-supply decay now applies to all COVP fees (v2 applied it only to the trust fee).
 - Divorce fee is paid by whoever calls the split, in addition to the 50/50 split of household USDC.
 
 ## Mainnet blockers (testnet uses mocks)

@@ -1,4 +1,4 @@
-# 🏛️ Covenant ($COV)
+# 🏛️ Covenant ($COVP)
 
 **A programmable savings vault for couples, with a built-in cooling-off period and a revenue-backed utility token. Built for Base.**
 
@@ -18,16 +18,18 @@ Two partners bind their wallets into a 2-of-2 household vault. Each household ho
 | **Generational** | `initializeGenerationalTrust` creates a child-trust record locked for 18 years and raises the Tenure Multiplier. |
 | **Stabilizer** | `initiateDissolution` starts a 90-day freeze. The non-initiating partner can `cancelDissolution`. After 90 days, `executeAlgorithmicDivorceSplit` splits the household's USDC 50/50 (planned: equal, pro-rata or custom, chosen by the couple at creation). |
 
-### The optional $COV token model (v3.1)
+### The optional $COVP token model (v3.1)
 
-$COV is a fixed-supply utility token, modeled on exchange platform tokens: the protocol earns USDC revenue, and a share of it buys and burns $COV.
+> **Ticker: $COVP.** The current testnet contracts were deployed before the ticker change and still show the symbol `COV` on block explorers. New deployments use `COVP`.
+
+$COVP is a fixed-supply utility token, modeled on exchange platform tokens: the protocol earns USDC revenue, and a share of it buys and burns $COVP.
 
 - **Fixed, contract-set fees:** 20 USDC per trust, 50 USDC per divorce split (bounded, owner-adjustable between 1 and 1,000 USDC). Callers cannot choose the amount.
 - **Pay in USDC:** 60% to the treasury, 40% queued for buyback-and-burn.
-- **Pay in $COV:** 25% discount. 70% burned, 30% to the Stabilization Vault.
-- **`executeBuyback`** (callable by anyone): spends only queued fee USDC, enforces a slippage floor, burns the $COV received.
+- **Pay in $COVP:** 25% discount. 70% burned, 30% to the Stabilization Vault.
+- **`executeBuyback`** (callable by anyone): spends only queued fee USDC, enforces a slippage floor, burns the $COVP received.
 - **Decay threshold:** once supply falls below **50% of the initial supply** (recorded on-chain at link time), burns slow to 20% and 80% is recycled. Voluntary boosts are exempt.
-- **Token-free mode:** USDC fees work without $COV configured.
+- **Token-free mode:** USDC fees work without $COVP configured.
 
 ---
 
@@ -38,7 +40,7 @@ $COV is a fixed-supply utility token, modeled on exchange platform tokens: the p
 | Contract | Address |
 |---|---|
 | CovenantVaultV31 | [`0x27B5F5cEE8CB63312f11cb1AC7F54A06A0cE43c1`](https://base-sepolia.blockscout.com/address/0x27B5F5cEE8CB63312f11cb1AC7F54A06A0cE43c1) |
-| $COV token | [`0x6ad9DCeA78Bf4eE9768445a9d46ae034BEbd346f`](https://base-sepolia.blockscout.com/address/0x6ad9DCeA78Bf4eE9768445a9d46ae034BEbd346f) |
+| $COVP token | [`0x6ad9DCeA78Bf4eE9768445a9d46ae034BEbd346f`](https://base-sepolia.blockscout.com/address/0x6ad9DCeA78Bf4eE9768445a9d46ae034BEbd346f) |
 | MockPriceSource (testnet only) | [`0xea4b30ac2227E0a8abD3677C574DF42EE203Ec04`](https://base-sepolia.blockscout.com/address/0xea4b30ac2227E0a8abD3677C574DF42EE203Ec04) |
 | MockBuybackRouter (testnet only) | [`0x922a2Fd83eE91472Aa3Ca7A22F541813D2988bb1`](https://base-sepolia.blockscout.com/address/0x922a2Fd83eE91472Aa3Ca7A22F541813D2988bb1) |
 
@@ -48,8 +50,8 @@ All four are verified on Blockscout. Earlier versions (v1, v2, v3) are listed in
 
 - v3.1 vault creation: [`0xebf5efbf…3a49`](https://base-sepolia.blockscout.com/tx/0xebf5efbfb1b29bf73c2db7709ec9c843097a451494cbb5082545a579f2533a49)
 - v3 proof, trust fee paid in USDC (20 USDC in, 12 to treasury, 8 queued): [`0x29a464e5…5790`](https://base-sepolia.blockscout.com/tx/0x29a464e569e4369ae25fd6ceae28e8093d215ce2be668d1dff43972accec5790)
-- v3 proof, trust fee paid in $COV (150 paid, 105 burned, 45 recycled): [`0x459ba39a…421c`](https://base-sepolia.blockscout.com/tx/0x459ba39a2658f98c69c932b802167b7d30886b81d0602a6bbf5593b28d31421c)
-- v3.1 decay test (done by calling the contracts from the command line): with supply above the threshold, a 0.8 USDC buyback burned all 8 $COV bought; after crossing the threshold, the same buyback burned 1.6 and recycled 6.4.
+- v3 proof, trust fee paid in $COVP (150 paid, 105 burned, 45 recycled): [`0x459ba39a…421c`](https://base-sepolia.blockscout.com/tx/0x459ba39a2658f98c69c932b802167b7d30886b81d0602a6bbf5593b28d31421c)
+- v3.1 decay test (done by calling the contracts from the command line): with supply above the threshold, a 0.8 USDC buyback burned all 8 $COVP bought; after crossing the threshold, the same buyback burned 1.6 and recycled 6.4.
 
 ---
 
@@ -77,7 +79,7 @@ Never put a private key in `.env`. Use Foundry's encrypted keystore (`cast walle
 
 ```
 src/
-  CovToken.sol                 $COV (fixed supply, burnable ERC-20)
+  CovToken.sol                 $COVP (fixed supply, burnable ERC-20)
   CovenantVaultV31.sol         Current vault (v3.1)
   CovenantVaultV3.sol          Previous vault (v3). Also holds shared interfaces
   CovenantVault.sol            v2 vault
