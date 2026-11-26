@@ -6,7 +6,9 @@
 
 Two partners bind their wallets into a 2-of-2 household vault. Each household holds its own USDC, accrues a Tenure Multiplier, can create 18-year child-trust records, and, if the relationship ends, goes through a mandatory **90-day freeze** that only the *other* partner can cancel. If the freeze expires, the household's USDC is split 50/50 on-chain (today fixed at 50/50; couple-chosen split rules are planned).
 
-🎥 Demo video: https://www.youtube.com/watch?v=MJx6GjLEdn0📄 Full details: [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md)
+🎥 Demo video: https://www.youtube.com/watch?v=MJx6GjLEdn0
+
+📄 Full details: [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md)
 
 ---
 
